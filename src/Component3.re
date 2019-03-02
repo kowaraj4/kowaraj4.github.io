@@ -48,6 +48,9 @@ let make = (_children) => {
       <p>
           {str("RESULT: " ++ Calc.getSomething());}
       </p>
+      <p>
+          {str("RESULT :: " ++ Calc.main());}
+      </p>
 
 
     </div>;
