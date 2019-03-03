@@ -45,11 +45,12 @@ let make = (_children) => {
           {self.state.show ? ReasonReact.string("constant greeting") : ReasonReact.null;}
       </p>
 
+      /* <p> */
+      /*     {str("RESULT: " ++ Calc.getSomething());} */
+      /* </p> */
       <p>
-          {str("RESULT: " ++ Calc.getSomething());}
-      </p>
-      <p>
-          {str("RESULT :: " ++ Calc.main());}
+          //{str("RESULT :: " ++ Calc.main());}
+          {Calc.main();str("RESULT :: "); }
       </p>
 
 
