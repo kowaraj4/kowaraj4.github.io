@@ -8,6 +8,13 @@
 /src/shapkee/build
 [root@d777a1dfc437 build]# ../node_modules/.bin/http-server .
 ```
+This starts an http server listening on port 8080:
+```
+Starting up http-server, serving .
+Available on:
+  http://127.0.0.1:8080
+  http://172.17.0.2:8080
+```
 
 ### 2. Start the bundler
 ```
