@@ -58,7 +58,7 @@ let is_in = (b : billType, i : occupantsType) => {
 };
   
 let found_interval = x => b =>  {
-  Js.log("Interval found: [" ++ x.since ++ " - " ++ x.till ++ "] for bill: " ++ b.date);
+  Js.log("Interval found: [" ++ x.since ++ " - " ++ x.till ++ "] for bill: " ++ b.date ++ " p: " ++ Person.name(b.paidby));
   Js.log("people = " ++ Person.names(x.people));
 };
 
@@ -69,8 +69,32 @@ let get_interval = (b) => {
   };
 };
 
+let get_interval2 = (b) => {
+  switch( List.find( (i) => is_in(b, i) , occupantsTimeline) ) {
+  | x => x.people
+  | exception Not_found => [Person.Nobody]
+  };
+};
+
+type debtType = {
+  who: string,
+  whom: string,
+  amount: float
+}
+  
+let process_bill = (sum, b : billType) => {
+//  Js.log("b.since = "++ b.since);
+//  Js.log("sum = "++ String.concat("_____", List.map(i=>i.whom ++ string_of_float(i.amount) ++ "\n", sum)));
+  
+  [{who: Person.names(get_interval2(b)), whom: Person.name(b.paidby), amount: b.value}, ...sum]
+};
+
+  
 let main = () => {
   List.map(b => get_interval(b), bills) |>ignore;
+  let debts = List.fold_left( process_bill, [], bills);
+  Js.log("debts: \n"++ String.concat("\n", List.map(i=>i.who ++ " " ++ i.whom ++ " " ++ string_of_float(i.amount), debts)));
+  
   "ok";
 };
   
