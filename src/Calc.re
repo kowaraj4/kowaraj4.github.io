@@ -27,27 +27,43 @@ let is_in = (b : Bill.t, i : Occupant.t) => {
   a && b;
 };
   
-let get_people = b => {
+let get_people = (b) => {
   switch( List.find( (i) => is_in(b, i) , occupantsTimeline) ) {
-  | x => x.people
+  | x => List.filter( p=>p!=Person.Nobody, x.people)
   | exception Not_found => [Person.Nobody]
   };
 };
 
-let process_bill = (sum, b) => {
-//  Js.log("b.since = "++ b.since);
-//  Js.log("sum = "++ String.concat("_____", List.map(i=>i.whom ++ string_of_float(i.amount) ++ "\n", sum)));
-  let d : Debt.t = {who: Person.names(get_people(b)), whom: Person.name(b.paidby), amount: b.value};
-  [d, ...sum];
+let get_people_all = () => {
+  [Person.Andrey, Person.Irene, Person.Nicola]
 };
 
-let print_debts = ds => {
-  Js.log("debts: \n"++ String.concat("\n", List.map((i:Debt.t)=>i.who ++ " " ++ i.whom ++ " " ++ string_of_float(i.amount), ds)));
+/* let find_debt_record = (dlist, p, pp) => { */
+/*   switch( List.find( (d : Debt.t) => d.who === p , dlist) ) { */
+/*   | x => x */
+/*   | exception Not_found => {whom: p, who:  */
+/*   }; */
+/* }; */
+
+
+let process_bill = (list_of_debts, b :Bill.t) => {
+  let i = b.paidby;
+  let pp = get_people(b);
+  let a = b.value /. float_of_int(List.length(pp));
+  let dlist = List.map(p => {
+    let tr : Transaction.t = {from: p, to_: i, value: a, date: "", description: string_of_float(b.value) ++ " paid @"++b.date ++ " ("++Expense.str(b.type_)++") "};
+    tr },
+                       List.filter(p=>p!=b.paidby, pp));
+  List.append(list_of_debts, dlist)
 };
 
-let main = () => {
-  let debts = List.fold_left( process_bill, [] , bills);
-  print_debts(debts);
+let print_transactions = tlist => {
+  Js.log("\n Transactions:\n")
+  Js.log(""++ String.concat("\n", List.map( (tr :Transaction.t) =>
+                                             Person.name(tr.from) ++ " -> " ++
+                                             Person.name(tr.to_) ++ " " ++ 
+                                             string_of_float(tr.value) ++ " " ++ 
+                                             " FOR: " ++ tr.description, tlist)));
 };
 
 let transactions : list(Transaction.t) = [
@@ -57,6 +73,27 @@ let transactions : list(Transaction.t) = [
   {date: "2018-09-13", value: 220.72, description: "for edf", from: Irene,  to_: Andrey},
   {date: "2018-09-13", value: 341.50, description: "for edf", from: Nicola, to_: Andrey}
 ];
+
+let debts = (pp, trs) => {
+[
+  [ 1.1 , 1.2 , 1.3],
+  [ 2.1 , 2.2 , 2.4],
+  [ 3.1 , 3.2 , 3.3]
+]
+};
+
+let print_debts = dtable =>  {
+  List.map(drow => {  List.map(d => Js.log(string_of_float(d)), drow) }, dtable)
+};
+
+let main = () => {
+  let tlist = List.fold_left( process_bill, [] , bills);
+  print_transactions(tlist);
+  let ds = debts(get_people_all(), tlist);
+  print_debts(ds);
+  ""
+};
+
 
 
   

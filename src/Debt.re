@@ -1,6 +1,6 @@
 type t = {
-  who: string,
-  whom: string,
+  who: Person.t,
+  whom: Person.t,
   amount: float
 };
   
