@@ -16,7 +16,14 @@ let component = ReasonReact.reducerComponent("Example");
 
 /* greeting and children are props. `children` isn't used, therefore ignored.
    We ignore it by prepending it with an underscore */
-let make = (_children) => {
+
+let calcs = Calc.main();
+let get = (p1, p2) => {
+  let v = List.nth(List.nth(calcs.dtable, p1+1), p2+1);
+  str(Calc.f2s(v^))
+};
+
+  let make = (_children) => {
   /* spread the other default fields of component here and override a few */
   ...component,
 
@@ -29,29 +36,51 @@ let make = (_children) => {
     | Toggle => ReasonReact.Update({...state, show: ! state.show})
     },
 
-  render: self => {
-    let message =
-      "You've clicked this " ++ string_of_int(self.state.count) ++ " times(s)";
+  render: _self => {
+    /* let message = */
+    /*   "You've clicked this " ++ string_of_int(self.state.count) ++ " times(s)"; */
     <div>
-      <button onClick={_event => self.send(Click)}>
-        {ReasonReact.string(message)}
-      </button>
+      /* <button onClick={_event => self.send(Click)}> */
+      /*   {ReasonReact.string(message)} */
+      /* </button> */
       
-      <button onClick={_event => self.send(Toggle)}>
-        {ReasonReact.string("Toggle greeting")}
-      </button>
+      /* <button onClick={_event => self.send(Toggle)}> */
+      /*   {ReasonReact.string("Toggle greeting")} */
+      /* </button> */
       
-      <p>
-          {self.state.show ? ReasonReact.string("constant greeting") : ReasonReact.null;}
-      </p>
 
-      /* <p> */
-      /*     {str("RESULT: " ++ Calc.getSomething());} */
-      /* </p> */
-      <p>
-          //{str("RESULT :: " ++ Calc.main());}
-          {Calc.main();str("RESULT :: "); }
-      </p>
+          <table>
+            <thead>
+              <tr>
+                <th> {str("who \\ whom")} </th>
+                <th> {str("Irene")} </th>
+                <th> {str("Andrey")} </th>
+                <th> {str("Nicola")} </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th> {str("to Irene")} </th>
+                <td> {get(0,0)} </td>
+                <td> {get(1,0)} </td>
+                <td> {get(2,0)} </td>
+              </tr>
+              <tr>
+                <th> {str("to Andrey")} </th>
+                <td> {get(0,1)} </td>
+                <td> {get(1,1)} </td>
+                <td> {get(2,1)} </td>
+              </tr>
+              <tr>
+                <th> {str("to Nicola")} </th>
+                <td> {get(0,2)} </td>
+                <td> {get(1,2)} </td>
+                <td> {get(2,2)} </td>
+              </tr>
+              </tbody>
+            </table>
+
+
 
 
     </div>;

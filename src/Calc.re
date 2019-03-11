@@ -1,5 +1,12 @@
 let now_ts = "2019-02-25";
 
+let f2s = x => {
+  let k = 10.;
+  let xint = int_of_float(x *. k);
+  string_of_float(float_of_int(xint) /. k);
+};
+
+
 let occupantsTimeline : list(Occupant.t) = [
   {since: "2016-10-23", till: "2016-10-31", people: [Nobody, Irene, Nobody ]},
   {since: "2016-11-01", till: "2017-07-31", people: [Nobody, Irene, Andrey ]},
@@ -35,7 +42,7 @@ let get_people = (b) => {
 };
 
 let get_people_all = () => {
-  [Person.Andrey, Person.Irene, Person.Nicola]
+  [Person.Nobody, Person.Irene, Person.Andrey, Person.Nicola]
 };
 
 /* let find_debt_record = (dlist, p, pp) => { */
@@ -45,16 +52,20 @@ let get_people_all = () => {
 /*   }; */
 /* }; */
 
-
-let process_bill = (list_of_debts, b :Bill.t) => {
+let process_bill = (trlist_acc, b :Bill.t) => {
   let i = b.paidby;
   let pp = get_people(b);
   let a = b.value /. float_of_int(List.length(pp));
-  let dlist = List.map(p => {
-    let tr : Transaction.t = {from: p, to_: i, value: a, date: "", description: string_of_float(b.value) ++ " paid @"++b.date ++ " ("++Expense.str(b.type_)++") "};
+  let trlist =
+    List.map(p => {
+    let tr : Transaction.t = {from: p,
+                              to_: i,
+                              value: a,
+                              date: "to be paid",
+                              description: string_of_float(b.value) ++ " paid @"++b.date ++ " ("++Expense.str(b.type_)++") "};
     tr },
-                       List.filter(p=>p!=b.paidby, pp));
-  List.append(list_of_debts, dlist)
+             List.filter(p=>p!=b.paidby, pp));
+  List.append(trlist_acc, trlist);
 };
 
 let print_transactions = tlist => {
@@ -62,7 +73,7 @@ let print_transactions = tlist => {
   Js.log(""++ String.concat("\n", List.map( (tr :Transaction.t) =>
                                              Person.name(tr.from) ++ " -> " ++
                                              Person.name(tr.to_) ++ " " ++ 
-                                             string_of_float(tr.value) ++ " " ++ 
+                                             f2s(tr.value) ++ " " ++ 
                                              " FOR: " ++ tr.description, tlist)));
 };
 
@@ -74,24 +85,36 @@ let transactions : list(Transaction.t) = [
   {date: "2018-09-13", value: 341.50, description: "for edf", from: Nicola, to_: Andrey}
 ];
 
-let debts = (pp, trs) => {
-[
-  [ 1.1 , 1.2 , 1.3],
-  [ 2.1 , 2.2 , 2.4],
-  [ 3.1 , 3.2 , 3.3]
-]
+/* let get_val = (p1, p2) => { */
+/*   float_of_int(Person.id(p2)*100+Person.id(p1)); */
+/* }; */
+
+let process_tr = (acc, t : Transaction.t) => {
+  let x = List.nth(List.nth(acc, Person.id(t.from)), Person.id(t.to_));
+  x := x^ +. t.value;
+  acc;
 };
 
-let print_debts = dtable =>  {
-  List.map(drow => {  List.map(d => Js.log(string_of_float(d)), drow) }, dtable)
+let debts = (pp, trlist) => {
+  let dtable_init = List.map(_p1 => {List.map(_p2 => ref(0.0), pp)}, pp);
+  let dtable = List.fold_left( process_tr, dtable_init, trlist);
+  let ds : Debt.t = {
+    dtable: dtable_init,
+    people: pp,
+    repr: String.concat("\n", List.map( drow => {  " " ++ String.concat(" - ", List.map(d => f2s(d^), drow)) }, dtable_init)),
+    repr2: String.concat("\n", List.map( drow => {  " " ++ String.concat(" - ", List.map(d => f2s(d^), drow)) }, dtable)),
+  };
+  ds;
 };
 
 let main = () => {
   let tlist = List.fold_left( process_bill, [] , bills);
   print_transactions(tlist);
-  let ds = debts(get_people_all(), tlist);
-  print_debts(ds);
-  ""
+
+  let ds : Debt.t = debts(get_people_all(), tlist);
+  Js.log(ds.repr);
+  Js.log(ds.repr2);
+  ds;
 };
 
 

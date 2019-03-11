@@ -1,6 +1,6 @@
 type t = {
-  who: Person.t,
-  whom: Person.t,
-  amount: float
+  dtable : list(list(ref(float))),
+  people : list(Person.t),
+  repr   : string,
+  repr2   : string,
 };
-  
