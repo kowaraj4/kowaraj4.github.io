@@ -13,7 +13,13 @@ let data : list(t) = [
   /* {date: "2017-10-11", value: 600.,  type_: EdF,      paidby: Irene,  ts: ("2017-11-01", "2017-12-01")}, */
 
   //real data
-  // not accounted in transactions-> {date: "2017-05-28", value: 247.65, type_: EdF,      paidby: Andrey, ts: ("2016-11-01", "2017-04-30")},
+
+  {date: "2016-11-08", value: 56.20,  type_: EdF,      paidby: Andrey, ts: ("2016-11-01", "2016-11-02")}, // <-- fake bill: ? subscription fee?
+  {date: "2016-11-08", value: 64.00,  type_: EdF,      paidby: Andrey, ts: ("2016-11-06", "2016-11-07")}, // fake ts
+  {date: "2017-02-17", value: 655.00, type_: EdF,      paidby: Andrey, ts: ("2017-02-15", "2017-02-16")}, // fake ts
+  {date: "2017-04-11", value: 511.00, type_: EdF,      paidby: Andrey, ts: ("2017-04-09", "2017-04-10")}, // fake ts
+  {date: "2017-05-28", value: 247.65, type_: EdF,      paidby: Andrey, ts: ("2017-06-10", "2017-06-11")}, // fake ts
+
   {date: "2017-07-30", value: 64.6,   type_: Internet, paidby: Irene,  ts: ("2017-06-01", "2017-07-31")},
   {date: "2017-07-30", value: 172.24, type_: EdF,      paidby: Andrey, ts: ("2017-05-01", "2017-07-31")},
   {date: "2017-09-30", value: 150.00, type_: Internet, paidby: Irene,  ts: ("2017-08-01", "2017-10-31")},
@@ -24,6 +30,14 @@ let data : list(t) = [
   {date: "2018-03-27", value: 391.25, type_: EdF,      paidby: Andrey, ts: ("2018-02-01", "2018-02-28")},
   {date: "2018-05-27", value: 193.47, type_: EdF,      paidby: Andrey, ts: ("2018-03-01", "2018-04-30")},
   {date: "2018-09-01", value: 362.78, type_: Internet, paidby: Irene,  ts: ("2017-11-01", "2018-09-30")},
+  // all equal on 2018-09-13
+
+  {date: "2018-08-16", value: 144.32, type_: EdF,      paidby: Andrey,  ts: ("2018-05-28", "2018-07-27")},
+  {date: "2018-09-26", value: 141.17, type_: EdF,      paidby: Andrey,  ts: ("2018-07-28", "2018-09-26")},
+  {date: "2018-11-26", value: 256.08, type_: EdF,      paidby: Andrey,  ts: ("2018-09-27", "2018-11-26")},
+  {date: "2019-02-08", value: 538.06, type_: EdF,      paidby: Andrey,  ts: ("2018-11-27", "2019-01-27")},
+
+
 ];
 
 let str = (x) => {

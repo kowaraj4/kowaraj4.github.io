@@ -45,10 +45,15 @@ let make = (_children) => {
   
   render: _self => {
     <div>
-      <p> {str("After all the bills have been paid:");} </p>
+      <p> {str("Format of the tables below is the following:")} </p>
+      <p> {str("The rows are people who paid the bills FOR everybody. The columns show how much was paid for whom.");} </p>
+      <p style=Style.t1> {str("After all the bills have been paid:");} </p>
+      <p> {str("(accumulative table, never zeroed down):");} </p>
       t1
+      <p> {str("*");} </p>
 
-    <p> {str("Accounted for all the transactions:");} </p>
+    <p style=Style.t1 > {str("Accounted for all the payback transactions:");} </p>
+    <p> {str("(should be all zeros when 'all squared'.)");} </p>
     t2
 
   </div>;

@@ -1,9 +1,10 @@
-let card = ReactDOMRe.Style.make(
-    ~border="2px solid #898989",
-    ~borderRadius="4px",
-    ~padding="1rem",
-    (),
-);
+let t1 = {
+  ReactDOMRe.Style.make(
+  ~fontSize="20px",
+  ~fontWeight="bold",
+  ()
+)
+};
 
 let h = {
   ReactDOMRe.Style.make(
