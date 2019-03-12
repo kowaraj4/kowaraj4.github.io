@@ -19,19 +19,19 @@ let component = ReasonReact.reducerComponent("Example");
 
 let calcs = Calc.main();
 let get = (p1, p2) => {
-  let v = List.nth(List.nth(calcs.dtable, p1+1), p2+1);
+  let v = List.nth(List.nth(calcs.dtable1, p1+1), p2+1);
   str(Util.f2s(v^))
 };
 
 let get_cout = (p1, p2) => {
-  let v = List.nth(List.nth(calcs.dtable_cout, p1+1), p2+1);
+  let v = List.nth(List.nth(calcs.dtable2, p1+1), p2+1);
   str(Util.f2s(v^))
 };
 
-let get_final = (p1, p2) => {
-  let v = List.nth(List.nth(calcs.dtable_final, p1+1), p2+1);
-  str(Util.f2s(v^))
-};
+/* let get_final = (p1, p2) => { */
+/*   let v = List.nth(List.nth(calcs.dtable_final, p1+1), p2+1); */
+/*   str(Util.f2s(v^)) */
+/* }; */
 
   let make = (_children) => {
   /* spread the other default fields of component here and override a few */
@@ -126,36 +126,36 @@ let get_final = (p1, p2) => {
 
             <p> {str("Transaction have been taken into account");} </p>
             
-            <table>
-              <thead>
-                <tr>
-                <th> {str("who \\ whom")} </th>
-                <th> {str("Irene")} </th>
-                <th> {str("Andrey")} </th>
-                <th> {str("Nicola")} </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th> {str("to Irene")} </th>
-                <td> {get_final(0,0)} </td>
-                <td> {get_final(1,0)} </td>
-                <td> {get_final(2,0)} </td>
-              </tr>
-              <tr>
-                <th> {str("to Andrey")} </th>
-                <td> {get_final(0,1)} </td>
-                <td> {get_final(1,1)} </td>
-                <td> {get_final(2,1)} </td>
-              </tr>
-              <tr>
-                <th> {str("to Nicola")} </th>
-                <td> {get_final(0,2)} </td>
-                <td> {get_final(1,2)} </td>
-                <td> {get_final(2,2)} </td>
-              </tr>
-              </tbody>
-            </table>
+            /* <table> */
+            /*   <thead> */
+            /*     <tr> */
+            /*     <th> {str("who \\ whom")} </th> */
+            /*     <th> {str("Irene")} </th> */
+            /*     <th> {str("Andrey")} </th> */
+            /*     <th> {str("Nicola")} </th> */
+            /*   </tr> */
+            /* </thead> */
+            /* <tbody> */
+            /*   <tr> */
+            /*     <th> {str("to Irene")} </th> */
+            /*     <td> {get_final(0,0)} </td> */
+            /*     <td> {get_final(1,0)} </td> */
+            /*     <td> {get_final(2,0)} </td> */
+            /*   </tr> */
+            /*   <tr> */
+            /*     <th> {str("to Andrey")} </th> */
+            /*     <td> {get_final(0,1)} </td> */
+            /*     <td> {get_final(1,1)} </td> */
+            /*     <td> {get_final(2,1)} </td> */
+            /*   </tr> */
+            /*   <tr> */
+            /*     <th> {str("to Nicola")} </th> */
+            /*     <td> {get_final(0,2)} </td> */
+            /*     <td> {get_final(1,2)} </td> */
+            /*     <td> {get_final(2,2)} </td> */
+            /*   </tr> */
+            /*   </tbody> */
+            /* </table> */
 
 
 

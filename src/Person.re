@@ -23,7 +23,7 @@ let id = (p : t) => {
 };
 
 let names = (ps : list(t)) => { 
-   String.concat("", List.map(p=>name(p), ps));
+   String.concat(" ", List.map(p=>name(p), ps));
 };
               
 

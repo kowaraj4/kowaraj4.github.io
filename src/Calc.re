@@ -9,6 +9,8 @@ let process_bill = (trlist_acc, b :Bill.t) => {
   Bill.print(b);
   let i = b.paidby;
   let pp = get_people(b);
+  Js.log("_get_people: " ++ Util.t2s(b.ts) ++ " RETURN: " ++ Person.names(pp))
+    
   let a = b.value /. float_of_int(List.length(pp));
   let pps = List.filter(p=>p!=b.paidby, pp);
   let trlist =  List.map(p => {  let tr : Transaction.t =
@@ -25,8 +27,10 @@ let process_bill = (trlist_acc, b :Bill.t) => {
 };
 
 let process_tr = (acc, t : Transaction.t) => {
-  let x = List.nth(List.nth(acc, Person.id(t.from)), Person.id(t.to_));
-  x := x^ +. t.value;
+  let x_who = List.nth(List.nth(acc, Person.id(t.to_)), Person.id(t.from));
+  let x_whom = List.nth(List.nth(acc, Person.id(t.from)), Person.id(t.to_));
+  x_who := x_who^ -. t.value;
+  x_whom := x_whom^ +. t.value;
   acc;
 };
 
@@ -41,35 +45,32 @@ let cancel_out = (dt, dt_ret) => {
   dt_ret;
 };
 
-let debts = (pp, trlist) => {
-  let dtable_init = Debt.make(pp);
-  let dtable_init2 = Debt.make(pp);
-  let dtable_init3 = Debt.make(pp);
 
-  let dtable = List.fold_left( process_tr, dtable_init, trlist);
+let debts = (pp, trlist) => {
+  let n = 4;
+
+  let dt1_ref = Debt.make_ref(n);
+  //let dt1 = Debt.unref(dt1_ref);
+  let dt1_ref_pass = List.fold_left( process_tr, dt1_ref, trlist);
+
+  let dt2_ref = Debt.clone(dt1_ref_pass);
+  let dt2_ref_pass = List.fold_left( process_tr, dt2_ref, Transaction.data);
   
-  let dtable_pass2 = cancel_out(dtable, dtable_init2);
-  let dtable_pass3 = List.fold_left( process_tr, dtable_init3, Transaction.data);
   let ds : Debt.t = {
-    dtable: dtable,
-    dtable_cout: dtable_pass2,
-    dtable_final: dtable_pass3,
+    dtable1: dt1_ref_pass,
+    dtable2: dt2_ref_pass,
     people: pp,
-    /* repr:  Debt.str(dtable_init), */
-    /* repr2: Debt.str(dtable_pass2), */
-    //repr:  String.concat("\n", List.map( drow => {  " " ++ String.concat("   ", List.map(d => Util.f2s(d^), drow)) }, dtable_init)),
-    //repr2: String.concat("\n", List.map( drow => {  " " ++ String.concat("   ", List.map(d => Util.f2s(d^), drow)) }, dtable_pass2)),
   };
   ds;
 };
 
 let main = () => {
-  //Bill.dump();
-  //Occupant.print();
+  Bill.dump();
+  Occupant.dump();
 
   let tlist = List.fold_left( process_bill, [] , Bill.data);
 
-  Transaction.print_list(tlist);
+  Transaction.dump();
 
   let ds : Debt.t = debts(Occupant.get_people_all(), tlist);
   
