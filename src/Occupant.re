@@ -23,12 +23,7 @@ let print = (x) => {
 };
 
 
-let dump = () => {
-  Js.log("Occupant.dump: ");
-  List.map(x=>print(x), data) |> ignore;
-  Js.log("end of Occupant.dump ");
-
-};
+let dump = () => {  Js.log("Occupants Timeline: ");  List.map(x=>print(x), data) |> ignore;  Js.log(" ");};
 
 
 let get_people_all = () => {

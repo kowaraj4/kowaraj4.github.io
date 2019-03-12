@@ -13,12 +13,12 @@ let data : list(t) = [
   /* {date: "2017-10-12", value: 200.,  description: "for edf", from: Nicola,  to_: Irene}, */
 
   //real data
-  /* {date: "2017-11-11", value: 61.78,  description: "for edf", from: Irene,  to_: Andrey}, */
-  /* {date: "2017-11-11", value: 49.47,  description: "for edf", from: Nicola, to_: Irene }, */
-  /* {date: "2017-11-11", value: 58.11,  description: "for edf", from: Nicola, to_: Andrey}, */
+  {date: "2017-11-11", value: 61.78,  description: "for edf", from: Irene,  to_: Andrey},
+  {date: "2017-11-11", value: 49.47,  description: "for edf", from: Nicola, to_: Irene },
+  {date: "2017-11-11", value: 58.11,  description: "for edf", from: Nicola, to_: Andrey},
 
-  /* {date: "2018-09-13", value: 220.72, description: "for edf", from: Irene,  to_: Andrey}, */
-  /* {date: "2018-09-13", value: 341.50, description: "for edf", from: Nicola, to_: Andrey} */
+  {date: "2018-09-13", value: 220.72, description: "for edf", from: Irene,  to_: Andrey},
+  {date: "2018-09-13", value: 341.50, description: "for edf", from: Nicola, to_: Andrey}
 ];
 
 let str = (x) => {
@@ -36,4 +36,4 @@ let print_list = (l) => {
   List.map( (tr :t) => print(tr), l) |> ignore;
 };
 
-let dump = () => { Js.log("Dump:"); print_list(data);};
+let dump = () => { Js.log("Payback Transactions: "); print_list(data); Js.log(" "); };

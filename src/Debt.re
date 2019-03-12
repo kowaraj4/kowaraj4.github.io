@@ -47,6 +47,13 @@ let refy = (dsrc) => {
   List.map(dlist => { List.map(y => {let x = ref(y); x;}, dlist) }, dsrc);
 };
 
+// getters
+
+let get = (dt, i, j) => {
+  List.nth(List.nth(dt,  j), i);
+};
+
+// log
 
 let str_x = (ds, ds_field) => {
   "\tto: \t" ++ String.concat("\t",  List.map( p => Person.name(p), ds.people)) ++ "\n" ++ 
@@ -54,9 +61,7 @@ let str_x = (ds, ds_field) => {
 };
 
 let str = (ds) => {  str_x(ds, ds.dtable1)  ++ "\n\n" ++
-                     str_x(ds, ds.dtable2)  //++ "\n\n" ++ 
-                     /* str_x(ds, ds.dtable3)  ++ "\n\n" ++ */
-                     /* str_x(ds, refy(ds.dtable4)) */
+                     str_x(ds, ds.dtable2)
 };
 
 let print = (dt) => {
